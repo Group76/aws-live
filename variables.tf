@@ -37,7 +37,7 @@ variable "environment" {
 variable "cluster_instance_size_name" {
   type        = string
   description = "Cluster instance size name"
-  default = "M0"
+  default = "M2"
 }
 
 # Cloud Provider to Host Atlas Cluster
