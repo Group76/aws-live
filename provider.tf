@@ -11,10 +11,10 @@ terraform {
   }
 
   cloud {
-    organization = var.organization
+    organization = "group76"
 
     workspaces {
-      name = var.workspaces
+      name = "aws-infrastructure-live"
     }
   }
 }
