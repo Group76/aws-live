@@ -6,7 +6,6 @@ terraform {
     }
     aws = {
       source = "hashicorp/aws"
-      region = var.region
       version = "~> 5.0"
     }
   }
@@ -18,4 +17,8 @@ terraform {
       name = var.workspaces
     }
   }
+}
+
+provider "aws" {
+  region = var.region
 }
