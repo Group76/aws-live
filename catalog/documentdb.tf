@@ -11,9 +11,8 @@ resource "aws_docdb_cluster_instance" "cluster_instance" {
 }
 
 resource "random_password" "password" {
-  count   = 1
   length  = 16
-  special = false
+  special = true
 }
 
 resource "aws_docdb_cluster" "cluster" {
@@ -22,7 +21,7 @@ resource "aws_docdb_cluster" "cluster" {
   cluster_identifier      = "catalog-cluster-docdb"
   engine                  = "docdb"
   master_username         = "catalog_admin"
-  master_password         = random_password.password[0].result
+  master_password         = random_password.password.result
   db_cluster_parameter_group_name = "${aws_docdb_cluster_parameter_group.param.name}"
   vpc_security_group_ids = ["${aws_security_group.sg_catalog.id}"]
 }
