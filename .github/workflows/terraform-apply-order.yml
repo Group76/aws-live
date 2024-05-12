@@ -9,8 +9,8 @@ on:
 env:
   TF_CLOUD_ORGANIZATION: "group76"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-  TF_WORKSPACE: "aws-infrastructure-live"
-  CONFIG_DIRECTORY: "./"
+  TF_WORKSPACE: "aws-infrastructure-order"
+  CONFIG_DIRECTORY: "./order"
 
 jobs:
   terraform:

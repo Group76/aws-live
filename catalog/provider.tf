@@ -1,9 +1,5 @@
 terraform {
   required_providers {
-    mongodbatlas = {
-      source = "mongodb/mongodbatlas"
-      version = ">= 0.13"
-    }
     aws = {
       source = "hashicorp/aws"
       version = "~> 5.0"
@@ -14,7 +10,7 @@ terraform {
     organization = "group76"
 
     workspaces {
-      name = "aws-infrastructure-live"
+      name = "aws-infrastructure-catalog"
     }
   }
 }
