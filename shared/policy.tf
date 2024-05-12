@@ -19,8 +19,25 @@ resource "aws_iam_policy" "ecs_ssm_policy" {
   })
 }
 
+resource "aws_iam_role" "ecs_role" {
+  name = "ecs-cluster-role"
+
+  assume_role_policy = jsonencode({
+    Version   = "2012-10-17"
+    Statement = [
+      {
+        Effect    = "Allow"
+        Principal = {
+          Service = "ecs.amazonaws.com"
+        }
+        Action    = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
 resource "aws_iam_policy_attachment" "ecs_ssm_policy_attachment" {
   name       = "ECSParameterStoreAccessAttachment"
-  roles      = [aws_ecs_cluster.ecs_cluster.name]
+  roles      = [aws_iam_role.ecs_role.name]
   policy_arn = aws_iam_policy.ecs_ssm_policy.arn
 }
