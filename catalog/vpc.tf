@@ -15,8 +15,8 @@ module "vpc" {
   single_nat_gateway = false
 }
 
-resource "aws_security_group" "service" {
-  name        = "sg-catalog"
+resource "aws_security_group" "sg_catalog" {
+  name        = "catalog"
   vpc_id      = "${module.vpc.vpc_id}"
 
   ingress {
