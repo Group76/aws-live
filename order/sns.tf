@@ -1,3 +1,3 @@
-resource "aws_sns_topic" "order" {
-  name = "order"
+resource "aws_sns_topic" "order-topic" {
+  name = "order-topic"
 }

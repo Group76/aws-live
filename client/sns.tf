@@ -1,4 +1,4 @@
-resource "aws_sns_topic" "client" {
-  name = "client"
+resource "aws_sns_topic" "client-topic" {
+  name = "client-topic"
   fifo_topic = true
 }
