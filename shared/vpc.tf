@@ -2,7 +2,7 @@ module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
   name = "vpc-shared"
-  cidr = "10.0.0.0/15"
+  cidr = "10.0.0.0/17"
 
   azs             = ["${var.region}a", "${var.region}b", "${var.region}c"]
   private_subnets = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]

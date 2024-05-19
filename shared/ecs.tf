@@ -27,7 +27,7 @@ resource "aws_ecs_task_definition" "task-catalog-api" {
   ])
 }
 
-resource "aws_ecs_service" "vite_app_service" {
+resource "aws_ecs_service" "catalog-api-service" {
   name            = "catalog-api"
   cluster         = aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.task-catalog-api.arn
@@ -36,7 +36,7 @@ resource "aws_ecs_service" "vite_app_service" {
 
   network_configuration {
     subnets          = module.vpc.public_subnets
-    security_groups  = [module.sg_shared.security_group_id]
+    security_groups  = [aws_security_group.sg_shared.id]
     assign_public_ip = true
   }
 }
