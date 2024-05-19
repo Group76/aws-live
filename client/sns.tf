@@ -1,3 +1,4 @@
-resource "aws_sns_topic" "client_create" {
-  name = "client-create-topic"
+resource "aws_sns_topic" "client" {
+  name = "client"
+  fifo_topic = true
 }
