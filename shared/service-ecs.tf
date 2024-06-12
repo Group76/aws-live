@@ -10,4 +10,9 @@ resource "aws_ecs_service" "catalog-api-service" {
     security_groups  = [aws_security_group.sg_shared.id]
     assign_public_ip = true
   }
+
+   depends_on = [
+    aws_cloudwatch_log_group.ecs_catalog_api,
+    aws_cloudwatch_log_stream.ecs_catalog_api
+  ]
 }

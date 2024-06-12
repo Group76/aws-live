@@ -5,7 +5,8 @@ resource "aws_ecs_task_definition" "task-catalog-api" {
   cpu                      = "256"
   memory                   = "512"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  container_definitions = jsonencode([
+  task_role_arn            = aws_iam_role.ecs_task_execution_role.arn
+  container_definitions    = jsonencode([
     {
       name   = "catalog-api"
       image  = "catalog-ecr-repository:latest"
@@ -19,6 +20,15 @@ resource "aws_ecs_task_definition" "task-catalog-api" {
         }
       ]
       essential = true
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-create-group": "true",
+          "awslogs-group"         = aws_cloudwatch_log_group.ecs_catalog_api.name
+          "awslogs-region"        = var.region
+          "awslogs-stream-prefix" = "ecs/catalog-api"
+        }
+      }
     }
   ])
 }

@@ -15,7 +15,7 @@ resource "aws_instance" "mongo_instance" {
               sh get-docker.sh
               systemctl start docker
               systemctl enable docker
-              docker run -d -p 27017:27017 --name mongodb -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=test123456 mongo:latest
+              docker run -d -p 27017:27017 --name mongodb mongo:latest
               EOF
 
   tags = {
