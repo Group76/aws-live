@@ -11,8 +11,15 @@ resource "aws_ecs_service" "catalog-api-service" {
     assign_public_ip = true
   }
 
+  load_balancer {
+    target_group_arn = aws_lb_target_group.main.arn
+    container_name   = "catalog-api"
+    container_port   = 8080
+  }
+
    depends_on = [
     aws_cloudwatch_log_group.ecs_catalog_api,
-    aws_cloudwatch_log_stream.ecs_catalog_api
+    aws_cloudwatch_log_stream.ecs_catalog_api,
+    aws_lb_target_group.main
   ]
 }
