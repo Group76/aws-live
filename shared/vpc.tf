@@ -21,8 +21,16 @@ resource "aws_subnet" "public_subnet_2" {
   map_public_ip_on_launch = true
 }
 
-# Subnet in us-east-2b (private)
+# Subnet in us-east-2a (private)
 resource "aws_subnet" "private_subnet_1" {
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = "10.0.3.0/24"
+  availability_zone       = "us-east-2a"
+  map_public_ip_on_launch = false  # Private subnet
+}
+
+# Subnet in us-east-2b (private)
+resource "aws_subnet" "private_subnet_2" {
   vpc_id                  = aws_vpc.main_vpc.id
   cidr_block              = "10.0.2.0/24"
   availability_zone       = "us-east-2b"
@@ -45,8 +53,13 @@ resource "aws_route_table" "main_route_table" {
 }
 
 # Associate the route table with the subnet
-resource "aws_route_table_association" "subnet_association" {
+resource "aws_route_table_association" "subnet_association1" {
   subnet_id      = aws_subnet.public_subnet_1.id
+  route_table_id = aws_route_table.main_route_table.id
+}
+
+resource "aws_route_table_association" "subnet_association2" {
+  subnet_id      = aws_subnet.public_subnet_2.id
   route_table_id = aws_route_table.main_route_table.id
 }
 
@@ -83,31 +96,4 @@ resource "aws_security_group" "sg_shared" {
     protocol = "-1"
     cidr_blocks = ["0.0.0.0/0"]
    }
-}
-
-resource "aws_security_group" "alb_security_group" {
-  name        = "alb_security_group"
-  description = "Allow inbound traffic to ALB"
-  vpc_id      = aws_vpc.main_vpc.id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 8080
-    to_port     = 8080
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }

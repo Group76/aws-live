@@ -1,26 +1,35 @@
-resource "aws_lb" "main" {
-  name                             = "catalog-lb"
-  load_balancer_type               = "network"
-  internal = false
-  subnets  = [aws_subnet.private_subnet_1.id]
+resource "aws_lb" "ecs_alb" {
+ name               = "ecs-alb"
+ internal           = false
+ load_balancer_type = "application"
+ security_groups    = [aws_security_group.sg_shared.id]
+ subnets            = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
+
+ tags = {
+   Name = "ecs-alb"
+ }
 }
 
-# adds a tcp listener to the load balancer and allows ingress
-resource "aws_lb_listener" "tcp" {
-  load_balancer_arn = aws_lb.main.id
-  port              = 8080
-  protocol          = "TCP"
+resource "aws_lb_listener" "ecs_alb_listener" {
+ load_balancer_arn = aws_lb.ecs_alb.arn
+ port              = 8080
+ protocol          = "HTTP"
 
-  default_action {
-    target_group_arn = aws_lb_target_group.main.id
-    type             = "forward"
-  }
+ default_action {
+   type             = "forward"
+   target_group_arn = aws_lb_target_group.ecs_tg.arn
+ }
 }
 
-resource "aws_lb_target_group" "main" {
-  name                 = "catalog-lb-tg"
-  port                 = 8080
-  protocol             = "TCP"
-  vpc_id               = aws_vpc.main_vpc.id
-  target_type          = "ip"
+resource "aws_lb_target_group" "ecs_tg" {
+ name        = "ecs-target-group"
+ port        = 8080
+ protocol    = "HTTP"
+ target_type = "ip"
+ vpc_id      = aws_vpc.main_vpc.id
+
+ health_check {
+   enabled = true
+   path = "/health"
+ }
 }

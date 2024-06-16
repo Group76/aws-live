@@ -12,7 +12,7 @@ resource "aws_ecs_service" "catalog-api-service" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.main.arn
+    target_group_arn = aws_lb_target_group.ecs_tg.arn
     container_name   = "catalog-api"
     container_port   = 8080
   }
@@ -20,6 +20,6 @@ resource "aws_ecs_service" "catalog-api-service" {
    depends_on = [
     aws_cloudwatch_log_group.ecs_catalog_api,
     aws_cloudwatch_log_stream.ecs_catalog_api,
-    aws_lb_target_group.main
+    aws_lb_target_group.ecs_tg
   ]
 }
