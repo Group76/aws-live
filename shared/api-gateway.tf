@@ -23,7 +23,7 @@ resource "aws_apigatewayv2_integration" "integration_lb_catalog" {
 resource "aws_apigatewayv2_route" "product_route" {
   depends_on         = [aws_apigatewayv2_integration.integration_lb_catalog]
   api_id             = aws_apigatewayv2_api.api_gateway.id
-  route_key          = "GET /v1/product/type/{type}"
+  route_key          = "GET /v1/product/type/{proxy+}"
   target             = "integrations/${aws_apigatewayv2_integration.integration_lb_catalog.id}"
 }
 
