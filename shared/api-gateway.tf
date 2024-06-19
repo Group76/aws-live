@@ -1,11 +1,11 @@
 resource "aws_apigatewayv2_vpc_link" "main" {
   name        = "vpc-link"
   security_group_ids = [ aws_security_group.sg_shared.id ]
-  subnet_ids = [ aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id ]
+  subnet_ids = [ aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id ]
 }
 
 resource "aws_apigatewayv2_api" "api_gateway" {
-  name          = "api-gateway"
+  name          = "restaurant-gateway"
   protocol_type = "HTTP"
 }
 
@@ -23,7 +23,7 @@ resource "aws_apigatewayv2_integration" "integration_lb_catalog" {
 resource "aws_apigatewayv2_route" "product_route" {
   depends_on         = [aws_apigatewayv2_integration.integration_lb_catalog]
   api_id             = aws_apigatewayv2_api.api_gateway.id
-  route_key          = "GET /v1/product/type/{proxy+}"
+  route_key          = "ANY /{proxy+}"
   target             = "integrations/${aws_apigatewayv2_integration.integration_lb_catalog.id}"
 }
 

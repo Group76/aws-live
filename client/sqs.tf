@@ -1,5 +1,5 @@
-resource "aws_sqs_queue" "product_queue" {
-  name                      = "product-queue.fifo"
+resource "aws_sqs_queue" "client_queue" {
+  name                      = "client-queue.fifo"
   delay_seconds             = 0
   max_message_size          = 262144
   message_retention_seconds = 345600
@@ -12,13 +12,13 @@ resource "aws_sqs_queue" "product_queue" {
 }
 
 resource "aws_sns_topic_subscription" "sns_subscription" {
-  topic_arn = aws_sns_topic.product_topic.arn
+  topic_arn = aws_sns_topic.client_topic.arn
   protocol  = "sqs"
-  endpoint  = aws_sqs_queue.product_queue.arn
+  endpoint  = aws_sqs_queue.client_queue.arn
 }
 
-resource "aws_sqs_queue_policy" "product_queue_policy" {
-  queue_url = aws_sqs_queue.product_queue.id
+resource "aws_sqs_queue_policy" "client_queue_policy" {
+  queue_url = aws_sqs_queue.client_queue.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -27,10 +27,10 @@ resource "aws_sqs_queue_policy" "product_queue_policy" {
         Effect = "Allow"
         Principal = "*"
         Action = "sqs:SendMessage"
-        Resource = aws_sqs_queue.product_queue.arn
+        Resource = aws_sqs_queue.client_queue.arn
         Condition = {
           ArnEquals = {
-            "aws:SourceArn" = aws_sns_topic.product_topic.arn
+            "aws:SourceArn" = aws_sns_topic.client_topic.arn
           }
         }
       }

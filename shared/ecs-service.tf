@@ -6,9 +6,8 @@ resource "aws_ecs_service" "catalog-api-service" {
   desired_count   = 1
 
   network_configuration {
-    subnets          = [aws_subnet.public_subnet_1.id]
+    subnets          = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
     security_groups  = [aws_security_group.sg_shared.id]
-    assign_public_ip = true
   }
 
   load_balancer {
@@ -20,6 +19,7 @@ resource "aws_ecs_service" "catalog-api-service" {
    depends_on = [
     aws_cloudwatch_log_group.ecs_catalog_api,
     aws_cloudwatch_log_stream.ecs_catalog_api,
-    aws_lb_target_group.ecs_tg
+    aws_lb_target_group.ecs_tg,
+    aws_lb_listener.ecs_alb_listener
   ]
 }

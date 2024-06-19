@@ -1,9 +1,9 @@
 resource "aws_lb" "ecs_alb" {
  name               = "ecs-alb"
- internal           = false
+ internal           = true
  load_balancer_type = "application"
  security_groups    = [aws_security_group.sg_shared.id]
- subnets            = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
+ subnets            = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
 
  tags = {
    Name = "ecs-alb"
