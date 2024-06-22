@@ -2,7 +2,7 @@ resource "aws_instance" "mongo_instance" {
   ami           = "ami-0c55b159cbfafe1f0"
   instance_type = "t2.micro"
   vpc_security_group_ids = [aws_security_group.sg_shared.id]
-  subnet_id     = aws_subnet.public_subnet_1.id
+  subnet_id     = aws_subnet.public[0].id
   associate_public_ip_address = true
 
   user_data = <<-EOF

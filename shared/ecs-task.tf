@@ -12,11 +12,11 @@ resource "aws_ecs_task_definition" "task-catalog-api" {
       image  = "catalog-ecr-repository:latest"
       cpu    = 256
       memory = 512
+      networkMode = "awsvpc",
       portMappings = [
         {
           containerPort = 8080
           hostPort      = 8080
-          protocol      = "tcp"
         }
       ]
       essential = true

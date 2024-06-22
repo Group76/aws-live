@@ -6,20 +6,39 @@ resource "aws_ecs_service" "catalog-api-service" {
   desired_count   = 1
 
   network_configuration {
-    subnets          = [aws_subnet.private_subnet_1.id, aws_subnet.private_subnet_2.id]
-    security_groups  = [aws_security_group.sg_shared.id]
+    security_groups = [aws_security_group.ecs_task.id]
+    subnets         = aws_subnet.private.*.id
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.ecs_tg.arn
-    container_name   = "catalog-api"
+    target_group_arn = aws_lb_target_group.catalog.id
+    container_name   = aws_ecs_task_definition.task-catalog-api.family
     container_port   = 8080
   }
 
    depends_on = [
     aws_cloudwatch_log_group.ecs_catalog_api,
     aws_cloudwatch_log_stream.ecs_catalog_api,
-    aws_lb_target_group.ecs_tg,
-    aws_lb_listener.ecs_alb_listener
+    aws_lb_target_group.catalog,
+    aws_lb_listener.catalog
   ]
+}
+
+resource "aws_security_group" "ecs_task" {
+  name   = "ecs-task-sg"
+  vpc_id = aws_vpc.default.id
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 8080
+    to_port         = 8080
+    security_groups = [aws_security_group.lb.id]
+  }
+
+  egress {
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
