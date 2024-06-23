@@ -6,7 +6,7 @@ resource "aws_ecs_service" "catalog-api-service" {
   desired_count   = 1
 
   network_configuration {
-    security_groups = [aws_security_group.ecs_task.id]
+    security_groups = [aws_security_group.catalog_ecs_task.id]
     subnets         = aws_subnet.private.*.id
   }
 
@@ -24,7 +24,7 @@ resource "aws_ecs_service" "catalog-api-service" {
   ]
 }
 
-resource "aws_security_group" "ecs_task" {
+resource "aws_security_group" "catalog_ecs_task" {
   name   = "ecs-task-sg"
   vpc_id = aws_vpc.default.id
 
