@@ -1,8 +1,8 @@
-resource "aws_apigatewayv2_integration" "integration_lb_catalog" {
+resource "aws_apigatewayv2_integration" "integration_lb_client" {
   api_id           = aws_apigatewayv2_api.api_gateway.id
-  description      = "Api gateway for catalog load balancer"
+  description      = "Api gateway for client load balancer"
   integration_type = "HTTP_PROXY"
-  integration_uri  = aws_lb_listener.catalog.arn
+  integration_uri  = aws_lb_listener.client.arn
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
   connection_id      = aws_apigatewayv2_vpc_link.vpc_link.id
@@ -15,37 +15,21 @@ resource "aws_apigatewayv2_integration" "integration_lb_catalog" {
 
   depends_on = [ 
     aws_apigatewayv2_vpc_link.vpc_link,
-    aws_lb.catalog,
+    aws_lb.client,
     aws_apigatewayv2_api.api_gateway            
   ]
 }
 
-resource "aws_apigatewayv2_route" "get_product_route" {
-  depends_on         = [aws_apigatewayv2_integration.integration_lb_catalog]
+resource "aws_apigatewayv2_route" "create_client_route" {
+  depends_on         = [aws_apigatewayv2_integration.integration_lb_client]
   api_id             = aws_apigatewayv2_api.api_gateway.id
-  route_key          = "GET /v1/product/type/{proxy+}"
-  target             = "integrations/${aws_apigatewayv2_integration.integration_lb_catalog.id}"
-  authorization_type = "CUSTOM"
-  authorizer_id      = aws_apigatewayv2_authorizer.jwt_auth.id
-}
-
-resource "aws_apigatewayv2_route" "create_product_route" {
-  depends_on         = [aws_apigatewayv2_integration.integration_lb_catalog]
-  api_id             = aws_apigatewayv2_api.api_gateway.id
-  route_key          = "POST /v1/product"
-  target             = "integrations/${aws_apigatewayv2_integration.integration_lb_catalog.id}"
-}
-
-resource "aws_apigatewayv2_route" "create_product_test_route" {
-  depends_on         = [aws_apigatewayv2_integration.integration_lb_catalog]
-  api_id             = aws_apigatewayv2_api.api_gateway.id
-  route_key          = "POST /v1/product-test"
-  target             = "integrations/${aws_apigatewayv2_integration.integration_lb_catalog.id}"
+  route_key          = "POST /v1/user"
+  target             = "integrations/${aws_apigatewayv2_integration.integration_lb_client.id}"
 }
 
 resource "aws_apigatewayv2_stage" "api_stage" {
   api_id = aws_apigatewayv2_api.api_gateway.id
-  name   = "catalog"
+  name   = "client"
   auto_deploy = true
 
   access_log_settings {
