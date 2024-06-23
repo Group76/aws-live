@@ -43,7 +43,7 @@ resource "aws_apigatewayv2_route" "create_product_test_route" {
   target             = "integrations/${aws_apigatewayv2_integration.integration_lb_catalog.id}"
 }
 
-resource "aws_apigatewayv2_stage" "api_stage" {
+resource "aws_apigatewayv2_stage" "catalog_stage" {
   api_id = aws_apigatewayv2_api.api_gateway.id
   name   = "catalog"
   auto_deploy = true
@@ -72,4 +72,8 @@ resource "aws_apigatewayv2_stage" "api_stage" {
       apiId                = "$context.apiId"
     })
   }
+}
+
+output "catalog_endpoint" {
+  value = aws_apigatewayv2_stage.catalog_stage.invoke_url
 }

@@ -27,7 +27,7 @@ resource "aws_apigatewayv2_route" "create_client_route" {
   target             = "integrations/${aws_apigatewayv2_integration.integration_lb_client.id}"
 }
 
-resource "aws_apigatewayv2_stage" "api_stage" {
+resource "aws_apigatewayv2_stage" "client_stage" {
   api_id = aws_apigatewayv2_api.api_gateway.id
   name   = "client"
   auto_deploy = true
@@ -56,4 +56,8 @@ resource "aws_apigatewayv2_stage" "api_stage" {
       apiId                = "$context.apiId"
     })
   }
+}
+
+output "client_endpoint" {
+  value = aws_apigatewayv2_stage.client_stage.invoke_url
 }

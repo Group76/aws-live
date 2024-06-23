@@ -6,7 +6,7 @@ resource "aws_ecs_service" "catalog-api-service" {
   desired_count   = 1
 
   network_configuration {
-    security_groups = [aws_security_group.catalog_ecs_task.id]
+    security_groups = [aws_security_group.ecs_task.id]
     subnets         = aws_subnet.private.*.id
   }
 
@@ -22,23 +22,4 @@ resource "aws_ecs_service" "catalog-api-service" {
     aws_lb_target_group.catalog,
     aws_lb_listener.catalog
   ]
-}
-
-resource "aws_security_group" "catalog_ecs_task" {
-  name   = "ecs-task-sg"
-  vpc_id = aws_vpc.default.id
-
-  ingress {
-    protocol        = "tcp"
-    from_port       = 8080
-    to_port         = 8080
-    security_groups = [aws_security_group.lb.id]
-  }
-
-  egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
