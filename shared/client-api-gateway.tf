@@ -23,7 +23,7 @@ resource "aws_apigatewayv2_integration" "integration_lb_client" {
 resource "aws_apigatewayv2_route" "create_client_route" {
   depends_on         = [aws_apigatewayv2_integration.integration_lb_client]
   api_id             = aws_apigatewayv2_api.api_gateway.id
-  route_key          = "POST /v1/user"
+  route_key          = "POST /v1/client"
   target             = "integrations/${aws_apigatewayv2_integration.integration_lb_client.id}"
 }
 

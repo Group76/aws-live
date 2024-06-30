@@ -51,7 +51,8 @@ resource "aws_iam_policy" "ecs_task_execution_policy" {
           "cloudwatch:*",
           "events:PutEvents",
           "sns:*",
-          "s3:*"
+          "s3:*",
+          "dynamodb:*"
         ]
         Resource = "*"
       },
