@@ -4,6 +4,7 @@ resource "aws_ecs_service" "catalog-api-service" {
   task_definition = aws_ecs_task_definition.task-catalog-api.arn
   launch_type     = "FARGATE"
   desired_count   = 1
+  health_check_grace_period_seconds = 240
 
   network_configuration {
     security_groups = [aws_security_group.ecs_task.id]
