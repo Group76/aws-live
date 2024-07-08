@@ -44,7 +44,7 @@ resource "aws_apigatewayv2_route" "get_token_document" {
 resource "aws_apigatewayv2_route" "anonymize" {
   depends_on         = [aws_apigatewayv2_integration.integration_lb_client]
   api_id             = aws_apigatewayv2_api.api_gateway.id
-  route_key          = "POST /v1/anonymize"
+  route_key          = "DELETE /v1/anonymize"
   target             = "integrations/${aws_apigatewayv2_integration.integration_lb_client.id}"
   authorization_type = "CUSTOM"
   authorizer_id      = aws_apigatewayv2_authorizer.jwt_auth.id
