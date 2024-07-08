@@ -34,6 +34,8 @@ resource "aws_apigatewayv2_route" "create_product_route" {
   api_id             = aws_apigatewayv2_api.api_gateway.id
   route_key          = "POST /v1/product"
   target             = "integrations/${aws_apigatewayv2_integration.integration_lb_catalog.id}"
+  authorization_type = "CUSTOM"
+  authorizer_id      = aws_apigatewayv2_authorizer.jwt_auth.id
 }
 
 resource "aws_apigatewayv2_route" "create_product_test_route" {
@@ -41,6 +43,8 @@ resource "aws_apigatewayv2_route" "create_product_test_route" {
   api_id             = aws_apigatewayv2_api.api_gateway.id
   route_key          = "POST /v1/product-test"
   target             = "integrations/${aws_apigatewayv2_integration.integration_lb_catalog.id}"
+  authorization_type = "CUSTOM"
+  authorizer_id      = aws_apigatewayv2_authorizer.jwt_auth.id
 }
 
 resource "aws_apigatewayv2_stage" "catalog_stage" {
