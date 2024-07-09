@@ -15,9 +15,7 @@ resource "aws_dynamodb_table_item" "guest_client" {
 
   item = <<ITEM
 {
-  "id": {"S": "83f3ea51-dacc-430c-ac34-8d64907d9a7c"},
-  "email": {"S": "guest@guest.com"},
-  "name": {"S": "Guest"}
+  "id": {"S": "83f3ea51-dacc-430c-ac34-8d64907d9a7c"}
 }
 ITEM
 }

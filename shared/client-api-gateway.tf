@@ -41,6 +41,13 @@ resource "aws_apigatewayv2_route" "get_token_document" {
   target             = "integrations/${aws_apigatewayv2_integration.integration_lb_client.id}"
 }
 
+resource "aws_apigatewayv2_route" "get_token_guest" {
+  depends_on         = [aws_apigatewayv2_integration.integration_lb_client]
+  api_id             = aws_apigatewayv2_api.api_gateway.id
+  route_key          = "POST /v1/auth/guest"
+  target             = "integrations/${aws_apigatewayv2_integration.integration_lb_client.id}"
+}
+
 resource "aws_apigatewayv2_route" "anonymize" {
   depends_on         = [aws_apigatewayv2_integration.integration_lb_client]
   api_id             = aws_apigatewayv2_api.api_gateway.id
