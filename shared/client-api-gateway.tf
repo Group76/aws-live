@@ -6,7 +6,7 @@ resource "aws_apigatewayv2_integration" "integration_lb_client" {
   integration_method = "ANY"
   connection_type    = "VPC_LINK"
   connection_id      = aws_apigatewayv2_vpc_link.vpc_link.id
-  timeout_milliseconds = 10000
+  timeout_milliseconds = 30000
   credentials_arn  = aws_iam_role.api_gateway_role.arn
 
   request_parameters = {
