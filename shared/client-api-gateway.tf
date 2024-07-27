@@ -106,6 +106,12 @@ resource "aws_apigatewayv2_stage" "client_stage" {
   }
 }
 
+resource "aws_apigatewayv2_api_mapping" "mapping_client" {
+  api_id      = aws_apigatewayv2_api.api_gateway.id
+  domain_name = aws_apigatewayv2_domain_name.principal_domain.id
+  stage       = aws_apigatewayv2_stage.client_stage.id
+}
+
 output "client_endpoint" {
   value = aws_apigatewayv2_stage.client_stage.invoke_url
 }
