@@ -110,6 +110,7 @@ resource "aws_apigatewayv2_api_mapping" "mapping_client" {
   api_id      = aws_apigatewayv2_api.api_gateway.id
   domain_name = aws_apigatewayv2_domain_name.principal_domain.id
   stage       = aws_apigatewayv2_stage.client_stage.id
+  api_mapping_key = "client"
 }
 
 output "client_endpoint" {
