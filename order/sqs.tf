@@ -38,7 +38,7 @@ resource "aws_sqs_queue" "order_kitchen_notification_queue" {
 }
 
 resource "aws_sns_topic_subscription" "sns_subscription" {
-  topic_arn = aws_sns_topic.order_topic.arn
+  topic_arn = aws_sns_topic.order-topic.arn
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.order_queue.arn
 }
@@ -68,7 +68,7 @@ resource "aws_sqs_queue_policy" "order_queue_policy" {
         Resource = aws_sqs_queue.order_queue.arn
         Condition = {
           ArnEquals = {
-            "aws:SourceArn" = aws_sns_topic.order_topic.arn
+            "aws:SourceArn" = aws_sns_topic.order-topic.arn
           }
         }
       }
