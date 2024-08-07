@@ -15,7 +15,7 @@ resource "aws_instance" "mysql_instance" {
               sh get-docker.sh
               systemctl start docker
               systemctl enable docker
-              docker run -d --name mysql-order -e MYSQL_ROOT_PASSWORD=$Xf5$n6y>~A?v%W -e MYSQL_DATABASE=order -e MYSQL_USER=orders -e MYSQL_PASSWORD=$Xf5$n6y>~A?v%W -p 3306:3306 mysql:latest
+              docker run -d --name mysql-order -e MYSQL_ROOT_PASSWORD=2]VK;k,5%^UAs)@Y -e MYSQL_DATABASE=ordersfix -e MYSQL_USER=order -e MYSQL_PASSWORD=$Xf5$n6y>~A?v%W -p 3306:3306 mysql:latest
 
               EOF
 
