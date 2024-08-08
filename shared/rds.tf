@@ -1,3 +1,11 @@
+resource "aws_db_subnet_group" "rds_subnet_group" {
+  name       = "rds-subnet-group"
+  subnet_ids = aws_subnet.public[*].id
+
+  tags = {
+    Name = "RDS subnet group"
+  }
+}
 
 resource "aws_db_instance" "mysql" {
   allocated_storage    = 10
@@ -12,6 +20,7 @@ resource "aws_db_instance" "mysql" {
   skip_final_snapshot  = true
 
   vpc_security_group_ids = [aws_security_group.sg_shared.id]
+  db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
 
   tags = {
     Name = "MySQL-RDS"
