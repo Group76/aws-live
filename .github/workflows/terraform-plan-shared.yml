@@ -1,4 +1,4 @@
-name: "Terraform Plan Catalog"
+name: "Terraform Plan Shared"
 
 on:
   pull_request:
