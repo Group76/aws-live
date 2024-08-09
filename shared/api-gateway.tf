@@ -9,6 +9,7 @@ resource "aws_apigatewayv2_api" "api_gateway" {
   protocol_type = "HTTP"
 }
 
+
 resource "aws_apigatewayv2_authorizer" "jwt_auth" {
   api_id                            = aws_apigatewayv2_api.api_gateway.id
   authorizer_type                   = "REQUEST"
