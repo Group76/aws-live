@@ -78,13 +78,6 @@ resource "aws_apigatewayv2_stage" "catalog_stage" {
   }
 }
 
-resource "aws_apigatewayv2_api_mapping" "mapping_catalog" {
-  api_id      = aws_apigatewayv2_api.api_gateway.id
-  domain_name = aws_apigatewayv2_domain_name.principal_domain.id
-  stage       = aws_apigatewayv2_stage.catalog_stage.id
-  api_mapping_key = "catalog"
-}
-
 output "catalog_endpoint" {
   value = aws_apigatewayv2_stage.catalog_stage.invoke_url
 }
