@@ -53,28 +53,6 @@ resource "aws_iam_role_policy_attachment" "api_gateway_policy_attachment" {
   role       = aws_iam_role.api_gateway_role.name
   policy_arn = aws_iam_policy.api_invocation_policy.arn
 }
-
-resource "aws_apigatewayv2_domain_name" "principal_domain" {
-  domain_name = "t-tozatto.com"
-
-  domain_name_configuration {
-    certificate_arn = "arn:aws:acm:us-east-2:653706844093:certificate/de405f1e-7dfe-4cd3-9d81-e8c2b44481a7"
-    endpoint_type   = "REGIONAL"
-    security_policy = "TLS_1_2"
-  }
-}
-
-resource "aws_route53_record" "api" {
-  name    = aws_apigatewayv2_domain_name.principal_domain.domain_name
-  type    = "A"
-  zone_id = data.aws_route53_zone.t_tozatto.zone_id
-
-  alias {
-    name                   = aws_apigatewayv2_domain_name.principal_domain.domain_name_configuration[0].target_domain_name
-    zone_id                = aws_apigatewayv2_domain_name.principal_domain.domain_name_configuration[0].hosted_zone_id
-    evaluate_target_health = false
-  }
-}
  
 # Policy to attach to the above invocation role
 resource "aws_iam_policy" "api_invocation_policy" {
