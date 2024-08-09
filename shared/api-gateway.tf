@@ -1,8 +1,3 @@
-data "aws_route53_zone" "t_tozatto" {
-  name         = "t-tozatto.com"
-  private_zone = false
-}
-
 resource "aws_apigatewayv2_vpc_link" "vpc_link" {
   name               = "vpclink"
   security_group_ids = [aws_security_group.lb.id]
